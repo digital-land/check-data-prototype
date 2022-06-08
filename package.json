@@ -12,12 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/digital-land/feedback"
+    "url": "git+https://github.com/digital-land/feedback-prototype"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/digital-land/feedback/issues"
+    "url": "https://github.com/digital-land/feedback-prototype/issues"
   },
   "dependencies": {
     "digital-land-frontend": "https://gitpkg.now.sh/digital-land/digital-land-frontend/package?main",
