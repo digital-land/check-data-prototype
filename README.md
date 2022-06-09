@@ -1,4 +1,4 @@
-# Data manager
+# Feedback Application Prototype
 
 ## Getting started
 
