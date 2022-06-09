@@ -450,6 +450,7 @@
 {% endblock %}
 
 {% block bodyEnd %}
+  {# this needs refactoring and abstracting to a component #}
   <script>
     let filterItems = document.querySelectorAll('.js-filter-item')
     function liveSearch() {
