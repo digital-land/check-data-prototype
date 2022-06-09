@@ -7,8 +7,8 @@
     "**/*.pyc": {
       "when": "$(basename).py"
     },
-    "**/__pycache__": false,
-    "**/__init__.py": false,
-    "node_modules/": false
+    "**/__pycache__": true,
+    "**/__init__.py": true,
+    "node_modules/": true
   }
 }
