@@ -431,7 +431,7 @@
                 <ul class="govuk-list govuk-!-margin-bottom-0">
                   {% for lpa in theseLPAs | sort %}
                     <li class="govuk-!-margin-bottom-1 js-filter-item">
-                      <a href="organisation-summary.html?orgname={{ lpa | replace('.','') | replace(',','') | replace("'","") }}" class="govuk-link">{{ lpa }}</a>
+                      <a href="/organisation" class="govuk-link">{{ lpa }}</a>
                     </li>
                   {% endfor %}
                 </ul>
