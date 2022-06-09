@@ -261,3 +261,5 @@ dist
 
 .idea
 .DS_Store
+
+application/static

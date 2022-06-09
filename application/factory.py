@@ -49,7 +49,9 @@ def register_context_processors(app):
 
 
 def register_filters(app):
-    pass
+    from application.filters import get_items_beginning_with
+
+    app.add_template_filter(get_items_beginning_with, name="get_items_beginning_with")
 
 
 def register_extensions(app):

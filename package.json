@@ -8,7 +8,8 @@
     "watch:pages": "npm run nps watch.pages",
     "watch": "npm-run-all --parallel watch:*",
     "nps": "nps -c ./node_modules/digital-land-frontend/package-scripts.js",
-    "postinstall": "npm run nps copy.javascripts && npm run nps build.stylesheets"
+    "postinstall": "npm run nps copy.javascripts && npm run nps build.stylesheets && npm run nps copy.govukAssets",
+    "start": "run-p watch flask"
   },
   "repository": {
     "type": "git",
