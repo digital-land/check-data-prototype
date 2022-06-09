@@ -5,6 +5,9 @@ init::
 	python -m pre_commit install
 	npm install
 
+frontend:
+	npm install
+
 black:
 	black .
 
@@ -19,7 +22,7 @@ isort:
 
 lint: black-check flake8
 
-run::
+run:
 	flask run
 
 watch:
