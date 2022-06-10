@@ -30,3 +30,16 @@ watch:
 
 test:
 	python -m pytest
+
+reqs:
+	python -m piptools compile requirements/requirements.in
+	python -m piptools compile requirements/dev-requirements.in
+
+sync:
+	 python -m piptools sync requirements/requirements.txt requirements/dev-requirements.txt
+
+upgrade-db:
+	flask db upgrade
+
+downgrade-db:
+	flask db downgrade

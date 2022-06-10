@@ -3,3 +3,7 @@ Flask
 gunicorn
 python-dotenv
 sentry-sdk[flask]
+Flask-SQLAlchemy
+Flask-Migrate
+psycopg2-binary
+requests

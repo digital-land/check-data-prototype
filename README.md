@@ -6,6 +6,11 @@ Create a python virtualenv then run:
 
     make init
 
+
+Create a local postgres db
+
+    createdb feedback
+
 To run the application run:
 
     make run
