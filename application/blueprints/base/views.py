@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, abort, render_template
 
 from application.models import Organisation
 
@@ -12,6 +12,9 @@ def index():
     return render_template("homepage.html", lpas=lpas)
 
 
-@base.route("/organisation")
-def org_summary():
-    return render_template("organisation-summary.html")
+@base.route("/organisation/<string:organisation>")
+def org_summary(organisation):
+    organisation = Organisation.query.get(organisation)
+    if not organisation:
+        abort(404)
+    return render_template("organisation-summary.html", organisation=organisation)

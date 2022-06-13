@@ -43,7 +43,7 @@
                 <ul class="govuk-list govuk-!-margin-bottom-0">
                   {% for lpa in theseLPAs  %}
                     <li class="govuk-!-margin-bottom-1 js-filter-item">
-                      <a href="/organisation/{{ lpa.organisation }}" class="govuk-link">{{ lpa.name }}</a>
+                      <a href="{{url_for('base.org_summary', organisation=lpa.organisation)}}" class="govuk-link">{{ lpa.name }}</a>
                     </li>
                   {% endfor %}
                 </ul>
