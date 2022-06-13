@@ -43,3 +43,6 @@ upgrade-db:
 
 downgrade-db:
 	flask db downgrade
+
+load-data:
+	flask manage load-data
