@@ -41,9 +41,9 @@
               </div>
               <div class="govuk-grid-column-two-thirds">
                 <ul class="govuk-list govuk-!-margin-bottom-0">
-                  {% for lpa in theseLPAs | sort %}
+                  {% for lpa in theseLPAs  %}
                     <li class="govuk-!-margin-bottom-1 js-filter-item">
-                      <a href="/organisation" class="govuk-link">{{ lpa }}</a>
+                      <a href="/organisation/{{ lpa.organisation }}" class="govuk-link">{{ lpa.name }}</a>
                     </li>
                   {% endfor %}
                 </ul>
