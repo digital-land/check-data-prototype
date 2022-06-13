@@ -11,6 +11,7 @@ class Config:
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://")
     SQLALCHEMY_DATABASE_URI = DATABASE_URL
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    DATASETTE_URL = os.getenv("DATASETTE_URL", "https://datasette.digital-land.info")
 
 
 class DevelopmentConfig(Config):
