@@ -84,6 +84,6 @@ def register_templates(app):
 
 
 def register_commands(app):
-    from application.commands import management_cli
+    from application.commands import data_cli
 
-    app.cli.add_command(management_cli)
+    app.cli.add_command(data_cli)

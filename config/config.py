@@ -12,6 +12,7 @@ class Config:
     SQLALCHEMY_DATABASE_URI = DATABASE_URL
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DATASETTE_URL = os.getenv("DATASETTE_URL", "https://datasette.digital-land.info")
+    S3_URL = os.getenv("S3_URL")
 
 
 class DevelopmentConfig(Config):
