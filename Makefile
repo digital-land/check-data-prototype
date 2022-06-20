@@ -44,5 +44,8 @@ upgrade-db:
 downgrade-db:
 	flask db downgrade
 
-load-base-data:
-	flask load base-data
+data-load:
+	flask data load
+
+data-drop:
+	flask data drop
