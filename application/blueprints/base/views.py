@@ -18,3 +18,8 @@ def org_summary(organisation):
     if not organisation:
         abort(404)
     return render_template("organisation-summary.html", organisation=organisation)
+
+
+@base.route("/dataset-feedback")
+def dataset_feedback():
+    return render_template("dataset-feedback.html")

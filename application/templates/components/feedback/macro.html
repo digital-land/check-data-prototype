@@ -1,0 +1,40 @@
+{% macro _feedbackSection(params) %}
+  <li class="app-feedback-list__section">
+    <h3 class="app-feedback-list__section-heading">
+      <span class="app-feedback-list__section-number">{{ params.number }}. </span>
+      {{ params.title }}
+    </h3>
+    {% if params.issues %}
+      <ul class="app-feedback-list__items">
+        {% for issue in params.issues %}
+          <li class="app-feedback-list__item">
+            <div class="app-feedback-list__item-text">
+              <a href="#">{{ issue.field }} {{ issue.description }}</a>
+            </div>
+            <div class="app-feedback-list__item-type">
+              {% if issue.type == 'mandatory' %}
+                {{ govukTag({ 'text': 'mandatory', 'classes': 'govuk-tag--red' }) }}
+              {% else %}
+                {{ govukTag({ 'text': 'recommendation', 'classes': 'govuk-tag--blue' }) }}
+              {% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </li>
+{% endmacro %}
+
+{% macro feedbackList(params) %}
+  <{{ params.elm | default('ol') }} class="app-feedback-list{% if params.classes %} {{ params.classes }}{% endif %}" role="list">
+    {% for item in params.list %}
+      {{
+        _feedbackSection({
+          'title': item.title,
+          'number': loop.index,
+          'issues': item.issues
+        })
+      }}
+    {% endfor %}
+  </{{ params.elm | default('ol') }}>
+{% endmacro %}

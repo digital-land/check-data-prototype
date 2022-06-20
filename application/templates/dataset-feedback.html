@@ -1,0 +1,148 @@
+{% extends "layouts/layout.html" %}
+{%- from 'govuk_frontend_jinja/components/table/macro.html' import govukTable -%}
+{%- from 'govuk_frontend_jinja/components/tag/macro.html' import govukTag -%}
+{%- from 'govuk_frontend_jinja/components/summary-list/macro.html' import govukSummaryList -%}
+{%- from 'components/feedback/macro.html' import feedbackList as appFeedback with context -%}
+{% block pageTitle %}{{ '[dataset]' }}{% endblock %}
+
+{%- block breadcrumbs -%}
+  {{- govukBreadcrumbs({
+    "items": [
+        {
+          "text": "Feedback home",
+          "href": "index.html"
+        },
+        {
+          "text": '[organisation]',
+          "href": "#" + '[organisation]'
+        },
+        {
+          "text": '[dataset]',
+          "href": "#"
+        }
+    ]
+    }) -}}
+{%- endblock -%}
+
+{% block content %}
+
+  <main id="content" role="main">
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl govuk-!-margin-bottom-3">How to improve {{ '[dataset]' }} data from {{ '[organisation]' }}</h1>
+      </div>
+    </div>
+
+    <hr class="govuk-section-break govuk-section-break--m" aria-hidden="true">
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+
+        <h2 class="govuk-heading-l">Step by step feedback</h2>
+        <p>The following steps are activities {{ '[organisation]' }} can do to ensure the {{ '[dataset]' }} data it publishes online meets the data standard and can be used by DLUHC and the general public.</p>
+
+        {% set stepsOverviewHTML %}
+          <p>Steps that must be completed are marked as mandatory.</p>
+          <p>Steps that are not mandatory but will improve the value and accessibility of the data are marked as a recommendation.</p>
+          <p>Clicking on a step will take you to a page showing more detail about what the feedback is and how to act upon it.</p>
+        {% endset %}
+
+        {{
+          govukDetails({
+            'summaryText': 'How to follow these steps',
+            'html': stepsOverviewHTML,
+            'classes': 'govuk-!-margin-bottom-8'
+          })
+        }}
+
+        {{
+          appFeedback({
+            'list': [
+              {
+                'title': 'Add missing data',
+                'type': 'missing',
+                'issues': [
+                  {
+                    'type': 'mandatory',
+                    'field': '{{ field }}',
+                    'description': 'data is missing'
+                  },
+                  {
+                    'type': 'recommendation',
+                    'field': '{{ field }}',
+                    'description': 'data is missing'
+                  },
+                ]
+              },
+              {
+                'title': 'Change the data format',
+                'type': 'format',
+                'issues': [
+                  {
+                    'type': 'recommendation',
+                    'field': '{{ field }}',
+                    'description': 'data is in a format different to the specification'
+                  }
+                ]
+              },
+              {
+                'title': 'Check accuracy of data',
+                'type': 'format',
+                'issues': [
+                  {
+                    'type': 'mandatory',
+                    'field': '{{ field }}',
+                    'description': 'data is a future date which is against the specification'
+                  }
+                ]
+              }
+            ]
+          })
+        }}
+
+        <hr class="govuk-section-break govuk-section-break--m" aria-hidden="true">
+
+        <nav class="app-pagination" role="navigation" aria-label="Pagination">
+            <div class="app-pagination__button app-pagination__button--next">
+                <a href="#" class="app-pagination__link" rel="next">
+                    <span class="app-pagination__link-title">
+                        <span class="app-pagination__link-label">
+                            Next<span class="govuk-visually-hidden"> dataset</span>
+                        </span>
+                    </span>
+                    <span class="app-pagination__link-text">{{ '[dataset name here]' }}</span>
+                </a>
+            </div>
+            <div class="app-pagination__button app-pagination__button--previous">
+                <a href="#" class="app-pagination__link" rel="prev">
+                    <span class="app-pagination__link-title">
+                        <span class="app-pagination__link-label">
+                            Previous<span class="govuk-visually-hidden"> dataset</span>
+                        </span>
+                    </span>
+                    <span class="app-pagination__link-text">{{ '[dataset name here]' }}</span>
+                </a>
+            </div>
+        </nav>
+
+        <hr class="govuk-section-break govuk-section-break--m" aria-hidden="true">
+
+      </div>
+      <!-- / .govuk-grid-column-two-thirds -->
+
+      <div class="govuk-grid-column-one-third">
+        <h3 class="govuk-heading-s">About this feedback</h3>
+        <p class="govuk-!-font-size-16">This feedback was last updated<br> {{ '[date]' }}.</p>
+        <p class="govuk-!-font-size-16">This feedback is updated {{ '[interval]' }}.</p>
+        <p class="govuk-!-font-size-16">If need support you can <a href="#">contact the Planning Data team</a>.</p>
+      </div>
+
+    </div>
+
+  </main>
+{% endblock %}
+
+{% block bodyEnd %}
+  {{ super() }}
+{% endblock bodyEnd %}
