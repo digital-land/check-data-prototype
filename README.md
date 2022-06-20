@@ -15,6 +15,9 @@ Run migrations
 
     make upgrade-db
 
+Get the data
+
+    make data-load
 
 To run the application run:
 
