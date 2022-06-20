@@ -6,7 +6,6 @@ Create a python virtualenv then run:
 
     make init
 
-
 Create a local postgres db
 
     createdb feedback
