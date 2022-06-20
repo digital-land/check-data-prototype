@@ -11,6 +11,11 @@ Create a local postgres db
 
     createdb feedback
 
+Run migrations
+
+    make upgrade-db
+
+
 To run the application run:
 
     make run
