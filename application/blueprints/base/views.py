@@ -13,10 +13,6 @@ def index():
     return render_template("homepage.html", lpas=lpas)
 
 
-class DatasetResource:
-    pass
-
-
 @base.route("/organisation/<string:organisation>")
 def org_summary(organisation):
     from application.extensions import db

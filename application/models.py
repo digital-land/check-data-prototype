@@ -90,7 +90,9 @@ class DatasetReport(db.Model):
     dataset_id = db.Column(db.Text, db.ForeignKey("dataset.dataset"))
     dataset = db.relationship("Dataset")
     organisation_id = db.Column(db.Text, db.ForeignKey("organisation.organisation"))
+    organisation = db.relationship("Organisation")
     resource_id = db.Column(db.Text, db.ForeignKey("resource.resource"))
+    resource = db.relationship("Resource")
     dataset_issues = db.relationship("DatasetIssue", back_populates="dataset_report")
     created_date = db.Column(
         db.TIMESTAMP, nullable=False, default=datetime.datetime.utcnow
