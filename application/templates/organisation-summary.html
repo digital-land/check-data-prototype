@@ -57,7 +57,9 @@
           <tbody class="govuk-table__body">
             {% for report in reports %}
               <tr class="govuk-table__row">
-                <td class="govuk-table__cell"><a href="{{ url_for('base.dataset_feedback', organisation=report.organisation_id, dataset=report.dataset_id) }}">{{ report.dataset.name }}</a></td>
+                <td class="govuk-table__cell">
+                  <a href="{{ url_for('base.dataset_feedback', organisation=report.organisation_id, dataset=report.dataset_id, resource=report.resource_id) }}">{{ report.dataset.name }}</a>
+                </td>
                 <td class="govuk-table__cell govuk-table__cell--numeric">
                   {% if report.has_actions() %}
                     <strong class="govuk-tag govuk-tag--error">

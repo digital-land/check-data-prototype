@@ -13,11 +13,11 @@
           "href": "index.html"
         },
         {
-          "text": '{{ organisation }}',
-          "href": "#" + '{{ organisation }}'
+          "text": report.organisation.name,
+          "href": "/organisation/" + report.organisation.organisation
         },
         {
-          "text": '{{ dataset }}',
+          "text": report.dataset.name,
           "href": "#"
         }
     ]
@@ -30,7 +30,7 @@
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-        <h1 class="govuk-heading-xl govuk-!-margin-bottom-3">How to improve {{ '{{ dataset }}' }} data from {{ '{{&nbsp;organisation&nbsp;}}' | safe }}</h1>
+        <h1 class="govuk-heading-xl govuk-!-margin-bottom-3">How to improve {{ report.dataset.name }} data from {{ report.organisation.name }}</h1>
       </div>
     </div>
 
@@ -40,7 +40,7 @@
       <div class="govuk-grid-column-two-thirds">
 
         <h2 class="govuk-heading-l">Step by step feedback</h2>
-        <p>The following steps are activities {{ '{{ organisation }}' }} can do to ensure the {{ '{{ dataset }}' }} data it publishes online meets the data standard and can be used by DLUHC and the general public.</p>
+        <p>The following steps are activities {{ report.organisation.name }} can do to ensure the {{ report.dataset.name }} data it publishes online meets the data standard and can be used by DLUHC and the general public.</p>
 
         {% set stepsOverviewHTML %}
           <p>Steps that must be completed are marked as mandatory.</p>
@@ -134,8 +134,8 @@
 
       <div class="govuk-grid-column-one-third">
         <h3 class="govuk-heading-s">About this feedback</h3>
-        <p class="govuk-!-font-size-16">This feedback was last updated<br> {{ '{{ date }}' }}.</p>
-        <p class="govuk-!-font-size-16">This feedback is updated {{ '{{ interval }}' }}.</p>
+        <p class="govuk-!-font-size-16">This feedback was last updated<br> {{ report.created_date | short_date }}.</p>
+        <p class="govuk-!-font-size-16">This feedback is updated {{ interval }}.</p>
         <p class="govuk-!-font-size-16">If need support you can <a href="#">contact the Planning Data team</a>.</p>
       </div>
 

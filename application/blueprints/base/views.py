@@ -78,6 +78,17 @@ def org_summary(organisation):
     )
 
 
-@base.route("/organisation/<string:organisation>/<string:dataset>/feedback")
-def dataset_feedback(organisation, dataset):
-    return render_template("dataset-feedback.html")
+@base.route(
+    "/organisation/<string:organisation>/<string:dataset>/<string:resource>/feedback"
+)
+def dataset_feedback(organisation, dataset, resource):
+
+    report = DatasetReport.query.filter(
+        DatasetReport.organisation_id == organisation,
+        DatasetReport.dataset_id == dataset,
+        DatasetReport.resource_id == resource,
+    ).one_or_none()
+    if report is None:
+        abort(404)
+
+    return render_template("dataset-feedback.html", report=report, interval="daily")
