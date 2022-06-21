@@ -1,14 +1,17 @@
+import concurrent
 import logging
 
 import requests
 from flask.cli import AppGroup
-from sqlalchemy import delete
+from sqlalchemy import delete, text
 from sqlalchemy.dialects.postgresql import insert
 
 from application.extensions import db
 from application.models import (
     Collection,
     Dataset,
+    DatasetIssue,
+    DatasetReport,
     IssueType,
     Organisation,
     Resource,
@@ -220,6 +223,12 @@ def load_data():
 @data_cli.command("drop")
 def drop_data():
 
+    stmt = delete(DatasetIssue)
+    db.session.execute(stmt)
+
+    stmt = delete(DatasetReport)
+    db.session.execute(stmt)
+
     stmt = delete(organisation_resource)
     db.session.execute(stmt)
 
@@ -242,3 +251,95 @@ def drop_data():
     db.session.execute(stmt)
 
     db.session.commit()
+
+
+@data_cli.command("report")
+def create_dataset_issue_report():
+
+    from flask import current_app
+
+    base_issue_url = "https://digital-land-issues.herokuapp.com/dataset-issue"
+
+    query = """SELECT d.dataset, r.resource, o.organisation
+    FROM dataset d, resource r, dataset_resource dr, organisation o, organisation_resource orgr
+    WHERE d.dataset = dr.dataset
+    AND r.resource = dr.resource
+    AND dr.resource = orgr.resource
+    AND o.organisation = orgr.organisation
+    ORDER BY d.dataset"""
+
+    sql = text(query)
+    datasets = db.session.execute(sql).fetchall()
+
+    dataset_issue_reports = []
+    for ds in datasets:
+        dataset_issue_reports.append({"url": base_issue_url, "dataset": ds})
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = []
+        for item in dataset_issue_reports:
+            futures.append(
+                executor.submit(
+                    generate_report,
+                    base_url=item["url"],
+                    ds=item["dataset"],
+                    app_context=current_app.app_context(),
+                )
+            )
+        for future in concurrent.futures.as_completed(futures):
+            print(future.result())
+
+
+def generate_report(base_url, ds, app_context):
+    with app_context:
+        dataset = ds[0]
+        resource = ds[1]
+        organisation = ds[2]
+        issue_url = f"{base_url}/{dataset}-issue.json?_shape=array&_col=resource&_col=field&_col=value&_col=issue-type&resource__exact={resource}"  # noqa
+        while issue_url is not None:
+            try:
+                resp = requests.get(issue_url)
+                issue_data = resp.json()
+                if issue_data:
+                    report = DatasetReport.query.filter(
+                        DatasetReport.dataset_id == dataset,
+                        DatasetReport.resource_id == resource,
+                        DatasetReport.organisation_id == organisation,
+                    ).one_or_none()
+                    if report is None:
+                        report = DatasetReport(
+                            dataset_id=dataset,
+                            resource_id=resource,
+                            organisation_id=organisation,
+                        )
+                        db.session.add(report)
+                        db.session.flush()
+                        print(
+                            f"created report dataset: {dataset} | resource: {resource} | organisation: {organisation}"
+                        )
+                    else:
+                        print(
+                            f"update report dataset: {dataset} | resource: {resource} | organisation: {organisation}"
+                        )
+                    for issue in issue_data:
+                        issue_type = issue.get("issue-type")
+                        if issue_type.lower() != "unknown entity":
+                            line = DatasetIssue.query.filter(
+                                DatasetIssue.dataset_report_id == report.id,
+                                DatasetIssue.issue_type == issue_type,
+                            ).one_or_none()
+                            if line is None:
+                                line = DatasetIssue(issue_type=issue["issue-type"])
+                                report.dataset_issues.append(line)
+                            else:
+                                line.count += 1
+                    db.session.add(report)
+                    db.session.commit()
+                try:
+                    issue_url = resp.links.get("next").get("url")
+                except AttributeError:
+                    issue_url = None
+            except Exception as e:
+                print(e)
+                issue_url = None
+        return f"completed report dataset: {dataset} | resource: {resource} | organisation: {organisation}"

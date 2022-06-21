@@ -38,120 +38,50 @@
         {# <h2 class="govuk-heading-l">Datasets</h2> #}
         <p>The following is a list of the datasets DLUHC creates using data published by {{ organisation.name | default('this organisation') }} with a status from the last time data was collected.</p>
 
-        {% set confObj = {
-          'status' : {
-            'actions' : govukTag({ 'text': 'Action needed', 'classes': 'govuk-tag--error' }),
-            'recommendations': govukTag({ 'text': 'Has recommendations','classes': 'govuk-tag--blue' }),
-            'good': govukTag({ 'text': 'Standard met', 'classes': 'govuk-tag--green' })
-          }
-        } %}
+{#        {% set confObj = {#}
+{#          'status' : {#}
+{#            'actions' : govukTag({ 'text': 'Action needed', 'classes': 'govuk-tag--error' }),#}
+{#            'recommendations': govukTag({ 'text': 'Has recommendations','classes': 'govuk-tag--blue' }),#}
+{#            'good': govukTag({ 'text': 'Standard met', 'classes': 'govuk-tag--green' })#}
+{#          }#}
+{#        } %}#}
 
-        {{
-          govukTable(
-            {
-              'head': [
-                {'text': 'Dataset'},
-                {'text': 'Status', 'format': 'numeric'},
-              ],
-              'rows': [
-                [
-                  {
-                    'html': '<a href="' + '#' + '">Brownfield land</a>'
-                  },
-                  {
-                    'html': confObj.status.actions,
-                    'format': 'numeric'
-                  }
-                ],
-                [
-                  {
-                    'html': '<a href="' + '#' + '">Article 4 direction</a>'
-                  },
-                  {
-                    'html': confObj.status.actions,
-                    'format': 'numeric'
-                  }
-                ],
-                [
-                  {
-                    'html': '<a href="' + '#' + '">Brownfield site</a>'
-                  },
-                  {
-                    'html': confObj.status.actions,
-                    'format': 'numeric'
-                  }
-                ],
-                [
-                  {
-                    'html': '<a href="' + '#' + '">Conservation area</a>'
-                  },
-                  {
-                    'html': confObj.status.recommendations,
-                    'format': 'numeric'
-                  }
-                ],
-                [
-                  {
-                    'html': '<a href="' + '#' + '">Developer agreement</a>'
-                  },
-                  {
-                    'html': confObj.status.recommendations,
-                    'format': 'numeric'
-                  }
-                ],
-                [
-                  {
-                    'html': '<a href="' + '#' + '">Developer agreement contribution</a>'
-                  },
-                  {
-                    'html': confObj.status.good,
-                    'format': 'numeric'
-                  }
-                ],
-                [
-                  {
-                    'html': '<a href="' + '#' + '">Developer agreement transaction</a>'
-                  },
-                  {
-                    'html': confObj.status.recommendations,
-                    'format': 'numeric'
-                  }
-                ],
-                [
-                  {
-                    'html': '<a href="' + '#' + '">Employment allocation</a>'
-                  },
-                  {
-                    'html': confObj.status.actions,
-                    'format': 'numeric'
-                  }
-                ],
-                [
-                  {
-                    'html': '<a href="' + '#' + '">Tree</a>'
-                  },
-                  {
-                    'html': confObj.status.actions,
-                    'format': 'numeric'
-                  }
-                ],
-                [
-                  {
-                    'html': '<a href="' + '#' + '">Tree preservation order</a>'
-                  },
-                  {
-                    'html': confObj.status.actions,
-                    'format': 'numeric'
-                  }
-                ]
-              ]
-            }
-          )
-        }}
+        <table class="govuk-table">
+          <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Dataset</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Status</th>
+          </tr>
+          </thead>
 
-        <p class="govuk-!-font-size-16">This page was last updated {{ '06 May 2022' }}</p>
+          <tbody class="govuk-table__body">
+            {% for report in reports %}
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell"><a href="#">{{ report.dataset.name }}</a></td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">
+                  {% if report.has_actions() %}
+                    <strong class="govuk-tag govuk-tag--error">
+                    Action needed
+                    </strong>
+                  {% elif report.has_recommendations() %}
+                    <strong class="govuk-tag govuk-tag--blue">
+                      Has recommendations
+                    </strong>
+                  {%  else %}
+                    <strong class="govuk-tag govuk-tag--green">
+                      Standard met
+                    </strong>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <p class="govuk-!-font-size-16">This page was last updated {{ last_update | short_date }}</p>
 
       </div>
+
     </div>
 
 

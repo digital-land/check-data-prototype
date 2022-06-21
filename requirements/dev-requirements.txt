@@ -27,7 +27,9 @@ iniconfig==1.1.1
 isort==5.10.1
     # via -r requirements/dev-requirements.in
 jsonpickle==2.2.0
-    # via -r requirements/dev-requirements.in
+    # via
+    #   -c requirements/requirements.txt
+    #   -r requirements/dev-requirements.in
 mccabe==0.6.1
     # via flake8
 mypy-extensions==0.4.3

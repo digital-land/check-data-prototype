@@ -34,6 +34,8 @@ flask-sqlalchemy==2.5.1
     #   flask-migrate
 govuk-frontend-jinja==2.2.0
     # via digital-land-frontend
+greenlet==1.1.2
+    # via sqlalchemy
 gunicorn==20.1.0
     # via -r requirements/requirements.in
 idna==3.3

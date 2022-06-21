@@ -51,10 +51,11 @@ def register_context_processors(app):
 
 
 def register_filters(app):
-    from application.filters import debug, get_items_beginning_with
+    from application.filters import debug, get_items_beginning_with, short_date
 
     app.add_template_filter(get_items_beginning_with, name="get_items_beginning_with")
     app.add_template_filter(debug, name="debug")
+    app.add_template_filter(short_date, name="short_date")
 
 
 def register_extensions(app):
