@@ -9,7 +9,7 @@
         {% for issue in params.issues %}
           <li class="app-feedback-list__item">
             <div class="app-feedback-list__item-text">
-              <a href="#">{{ issue.field }} {{ issue.description }}</a>
+              <a href="#">"{{ issue.field }}" &dash; {{ issue.description }}</a>
             </div>
             <div class="app-feedback-list__item-type">
               {% if issue.type == 'mandatory' %}

@@ -3,14 +3,14 @@
 {%- from 'govuk_frontend_jinja/components/tag/macro.html' import govukTag -%}
 {%- from 'govuk_frontend_jinja/components/summary-list/macro.html' import govukSummaryList -%}
 {%- from 'components/feedback/macro.html' import feedbackList as appFeedback with context -%}
-{% block pageTitle %}{{ '{{ dataset }}' }}{% endblock %}
+{% block pageTitle %}{{ report.dataset.dataset }}{% endblock %}
 
 {%- block breadcrumbs -%}
   {{- govukBreadcrumbs({
     "items": [
         {
-          "text": "Feedback home",
-          "href": "index.html"
+          "text": "Feedback",
+          "href": "/"
         },
         {
           "text": report.organisation.name,
@@ -18,7 +18,7 @@
         },
         {
           "text": report.dataset.name,
-          "href": "#"
+          "href": None
         }
     ]
     }) -}}
@@ -57,75 +57,35 @@
         }}
 
         {{
-          appFeedback({
-            'list': [
-              {
-                'title': 'Add missing data',
-                'type': 'missing',
-                'issues': [
-                  {
-                    'type': 'mandatory',
-                    'field': '{{ field }}',
-                    'description': 'data is missing'
-                  },
-                  {
-                    'type': 'recommendation',
-                    'field': '{{ field }}',
-                    'description': 'data is missing'
-                  },
-                ]
-              },
-              {
-                'title': 'Change the data format',
-                'type': 'format',
-                'issues': [
-                  {
-                    'type': 'recommendation',
-                    'field': '{{ field }}',
-                    'description': 'data is in a format different to the specification'
-                  }
-                ]
-              },
-              {
-                'title': 'Check accuracy of data',
-                'type': 'accuracy',
-                'issues': [
-                  {
-                    'type': 'mandatory',
-                    'field': '{{ field }}',
-                    'description': 'data is a future date which is against the specification'
-                  }
-                ]
-              }
-            ]
-          })
+          appFeedback({'list': feedback })
         }}
+
 
         <hr class="govuk-section-break govuk-section-break--m" aria-hidden="true">
 
         {# this should probably be a component driven by data? #}
-        <nav class="app-pagination" role="navigation" aria-label="Pagination">
-            <div class="app-pagination__button app-pagination__button--next">
-                <a href="#" class="app-pagination__link" rel="next">
-                    <span class="app-pagination__link-title">
-                        <span class="app-pagination__link-label">
-                            Next<span class="govuk-visually-hidden"> dataset</span>
-                        </span>
-                    </span>
-                    <span class="app-pagination__link-text">{{ '{{ dataset name here }}' }}</span>
-                </a>
-            </div>
-            <div class="app-pagination__button app-pagination__button--previous">
-                <a href="#" class="app-pagination__link" rel="prev">
-                    <span class="app-pagination__link-title">
-                        <span class="app-pagination__link-label">
-                            Previous<span class="govuk-visually-hidden"> dataset</span>
-                        </span>
-                    </span>
-                    <span class="app-pagination__link-text">{{ '{{ dataset name here }}' }}</span>
-                </a>
-            </div>
-        </nav>
+{#        <nav class="app-pagination" role="navigation" aria-label="Pagination">#}
+{#            <div class="app-pagination__button app-pagination__button--next">#}
+{#                <a href="#" class="app-pagination__link" rel="next">#}
+{#                    <span class="app-pagination__link-title">#}
+{#                        <span class="app-pagination__link-label">#}
+{#                            Next<span class="govuk-visually-hidden"> dataset</span>#}
+{#                        </span>#}
+{#                    </span>#}
+{#                    <span class="app-pagination__link-text">{{ '{{ dataset name here }}' }}</span>#}
+{#                </a>#}
+{#            </div>#}
+{#            <div class="app-pagination__button app-pagination__button--previous">#}
+{#                <a href="#" class="app-pagination__link" rel="prev">#}
+{#                    <span class="app-pagination__link-title">#}
+{#                        <span class="app-pagination__link-label">#}
+{#                            Previous<span class="govuk-visually-hidden"> dataset</span>#}
+{#                        </span>#}
+{#                    </span>#}
+{#                    <span class="app-pagination__link-text">{{ '{{ dataset name here }}' }}</span>#}
+{#                </a>#}
+{#            </div>#}
+{#        </nav>#}
 
         <hr class="govuk-section-break govuk-section-break--m" aria-hidden="true">
 

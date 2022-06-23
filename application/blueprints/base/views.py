@@ -91,4 +91,52 @@ def dataset_feedback(organisation, dataset, resource):
     if report is None:
         abort(404)
 
-    return render_template("dataset-feedback.html", report=report, interval="daily")
+    additions = []
+    changes = []
+    checks = []
+
+    for issue in report.get_additions():
+        additions.append(
+            {
+                "type": "mandatory",
+                "field": issue.field,
+                "description": issue.issue.issue_description,
+            }
+        )
+
+    for issue in report.get_changes():
+        changes.append(
+            {
+                "type": "mandatory",
+                "field": issue.field,
+                "description": issue.issue.issue_description,
+            }
+        )
+
+    for issue in report.get_checks():
+        checks.append(
+            {
+                "type": "recommendation",
+                "field": issue.field,
+                "description": issue.issue.issue_description,
+            }
+        )
+
+    feedback = []
+    if additions:
+        feedback.append(
+            {"title": "Add missing data", "type": "missing", "issues": additions}
+        )
+    if changes:
+        feedback.append(
+            {"title": "Change the data format", "type": "format", "issues": changes}
+        )
+
+    if checks:
+        feedback.append(
+            {"title": "Check accuracy of data", "type": "accuracy", "issues": checks}
+        )
+
+    return render_template(
+        "dataset-feedback.html", report=report, interval="daily", feedback=feedback
+    )
