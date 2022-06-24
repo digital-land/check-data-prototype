@@ -1,8 +1,10 @@
 {% extends "layouts/layout.html" %}
+
 {%- from 'govuk_frontend_jinja/components/table/macro.html' import govukTable -%}
 {%- from 'govuk_frontend_jinja/components/tag/macro.html' import govukTag -%}
 {%- from 'govuk_frontend_jinja/components/summary-list/macro.html' import govukSummaryList -%}
 {%- from 'components/feedback/macro.html' import feedbackList as appFeedback with context -%}
+
 {% block pageTitle %}{{ report.dataset.dataset }}{% endblock %}
 
 {%- block breadcrumbs -%}
@@ -33,28 +35,29 @@
         <h1 class="govuk-heading-xl govuk-!-margin-bottom-3">How to improve {{ report.dataset.name }} data from {{ report.organisation.name }}</h1>
       </div>
     </div>
+  </div>
 
-    <hr class="govuk-section-break govuk-section-break--m" aria-hidden="true">
+  <hr class="govuk-section-break govuk-section-break--m" aria-hidden="true">
 
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
 
         <h2 class="govuk-heading-l">Step by step feedback</h2>
         <p>The following steps are activities {{ report.organisation.name }} can do to ensure the {{ report.dataset.name }} data it publishes online meets the data standard and can be used by DLUHC and the general public.</p>
 
-        {% set stepsOverviewHTML %}
-          <p>Steps that must be completed are marked as mandatory.</p>
-          <p>Steps that are not mandatory but will improve the value and accessibility of the data are marked as a recommendation.</p>
-          <p>Clicking on a step will take you to a page showing more detail about what the feedback is and how to act upon it.</p>
-        {% endset %}
+      {% set stepsOverviewHTML %}
+        <p>Steps that must be completed are marked as mandatory.</p>
+        <p>Steps that are not mandatory but will improve the value and accessibility of the data are marked as a recommendation.</p>
+        <p>Clicking on a step will take you to a page showing more detail about what the feedback is and how to act upon it.</p>
+      {% endset %}
 
-        {{
-          govukDetails({
-            'summaryText': 'How to follow these steps',
-            'html': stepsOverviewHTML,
-            'classes': 'govuk-!-margin-bottom-8'
-          })
-        }}
+      {{
+        govukDetails({
+          'summaryText': 'How to follow these steps',
+          'html': stepsOverviewHTML,
+          'classes': 'govuk-!-margin-bottom-8'
+        })
+      }}
 
         {{
           appFeedback({'list': feedback })
@@ -100,8 +103,17 @@
       </div>
 
     </div>
+    <!-- / .govuk-grid-column-two-thirds -->
 
-  </main>
+    <div class="govuk-grid-column-one-third">
+      <h3 class="govuk-heading-s">About this feedback</h3>
+      <p class="govuk-!-font-size-16">This feedback was last updated<br> {{ '{{ date }}' }}.</p>
+      <p class="govuk-!-font-size-16">This feedback is updated {{ '{{ interval }}' }}.</p>
+      <p class="govuk-!-font-size-16">If need support you can <a href="#">contact the Planning Data team</a>.</p>
+    </div>
+
+  </div>
+
 {% endblock %}
 
 {% block bodyEnd %}

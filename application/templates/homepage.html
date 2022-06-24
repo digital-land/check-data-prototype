@@ -1,74 +1,73 @@
 {% extends "layouts/layout.html" %}
+
 {%- from 'govuk_frontend_jinja/components/table/macro.html' import govukTable -%}
 {%- from 'govuk_frontend_jinja/components/tag/macro.html' import govukTag -%}
-{% block pageTitle %}Feedback{% endblock %}
-{% block content %}
-  <main id="content" role="main">
 
-    {% if not lpas %}
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-          <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Help to publish your planning and housing data</h1>
-          <p class="govuk-body-l govuk-!-margin-bottom-6">
-            Application data is being loaded. Check back here in a few minutes.
-          </p>
-        </div>
-      </div>
-    {% else %}
+{% block pageTitle %}Feedback{% endblock %}
+
+{% block content %}
+  {% if not lpas %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        {# <div class="govuk-caption-xl">Feedback</div> #}
         <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Help to publish your planning and housing data</h1>
         <p class="govuk-body-l govuk-!-margin-bottom-6">
-          Get feedback and support to publish data that meets standards set by the Department for Levelling Up, Housing and Communities.</p>
+          Application data is being loaded. Check back here in a few minutes.
+        </p>
       </div>
     </div>
+  {% else %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Help to publish your planning and housing data</h1>
+      <p class="govuk-body-l govuk-!-margin-bottom-6">
+        Get feedback and support to publish data that meets standards set by the Department for Levelling Up, Housing and Communities.</p>
+    </div>
+  </div>
 
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full">
-        {# <h1 class="govuk-heading-m govuk-!-margin-bottom-3">Local Planning Authorities</h1> #}
-        {# <p class="govuk-body govuk-!-margin-bottom-6">The organisations listed below publish planning and housing data</p> #}
-      </div>
-      <div class="govuk-grid-column-two-thirds">
-        <form class="govuk-!-margin-bottom-6">
-          <label class="govuk-label govuk-label--m govuk-!-font-weight-bold" for="filter-organisations-list">Search for your organisation</label>
-          <input class="govuk-input" type="text" id="filter-organisations-list" placeholder="For example, Lambeth">
-        </form>
-      </div>
-      <div class="govuk-grid-column-full">
-        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-      </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="govuk-!-margin-bottom-6">
+        <label class="govuk-label govuk-label--m govuk-!-font-weight-bold" for="filter-organisations-list">Search for your organisation</label>
+        <input class="govuk-input" type="text" id="filter-organisations-list" placeholder="For example, Lambeth">
+      </form>
     </div>
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full">
-        {% set letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" | list %}
-        {% for char in letters %}
-          {% set theseLPAs = lpas | get_items_beginning_with(char) %}
-          {% if (theseLPAs | length) > 0 %}
-            <div class="govuk-grid-row js-filter-item">
-              <div class="govuk-grid-column-one-third">
-                <h2 class="govuk-heading-xl">{{ char }}</h2>
-              </div>
-              <div class="govuk-grid-column-two-thirds">
-                <ul class="govuk-list govuk-!-margin-bottom-0">
-                  {% for lpa in theseLPAs  %}
-                    <li class="govuk-!-margin-bottom-1 js-filter-item">
-                      <a href="{{url_for('base.org_summary', organisation=lpa.organisation)}}" class="govuk-link">{{ lpa.name }}</a>
-                    </li>
-                  {% endfor %}
-                </ul>
-              </div>
-              <div class="govuk-grid-column-full">
-                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-              </div>
+    <!-- /. govuk-grid-column-two-thirds -->
+    <div class="govuk-grid-column-full">
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    </div>
+    <!-- /. govuk-grid-column-full -->
+  </div>
+  <!-- /. govuk-grid-row -->
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      {% set letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" | list %}
+      {% for char in letters %}
+        {% set theseLPAs = lpas | get_items_beginning_with(char) %}
+        {% if (theseLPAs | length) > 0 %}
+          <div class="govuk-grid-row js-filter-item">
+            <div class="govuk-grid-column-one-third">
+              <h2 class="govuk-heading-xl">{{ char }}</h2>
             </div>
-          {% endif %}
+            <div class="govuk-grid-column-two-thirds">
+              <ul class="govuk-list govuk-!-margin-bottom-0">
+                {% for lpa in theseLPAs  %}
+                  <li class="govuk-!-margin-bottom-1 js-filter-item">
+                    <a href="{{url_for('base.org_summary', organisation=lpa.organisation)}}" class="govuk-link">{{ lpa.name }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="govuk-grid-column-full">
+              <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+            </div>
+          </div>
           <!-- /.govuk-grid-row -->
-        {% endfor %}
-      </div>
+        {% endif %}
+      {% endfor %}
     </div>
-    {% endif %}
-  </main>
+  </div>
+  {% endif %}
 {% endblock %}
 
 {% block bodyEnd %}
