@@ -200,6 +200,8 @@ class DatasetReport(db.Model):
     def has_recommendations(self):
         return any(i.issue.severity == "warn" for i in self.dataset_issues)
 
+    # TODO- this was added before all the action category stuff and doesn't
+    # make sense any more needs re working
     def standard_met(self):
         return not (self.has_actions() and self.has_recommendations())
 

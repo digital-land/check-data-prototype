@@ -107,7 +107,7 @@ def dataset_feedback(organisation, dataset, resource):
     for issue in report.get_changes():
         changes.append(
             {
-                "type": "mandatory",
+                "type": "recommendation",
                 "field": issue.field,
                 "description": issue.issue.issue_description,
             }
