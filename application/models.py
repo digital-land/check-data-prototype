@@ -1,6 +1,8 @@
 import datetime
 import enum
 
+from sqlalchemy.dialects.postgresql import ARRAY
+
 from application.extensions import db
 
 
@@ -242,3 +244,4 @@ class DatasetIssue(db.Model):
     dataset_report = db.relationship("DatasetReport", back_populates="dataset_issues")
     field = db.Column(db.String, nullable=False)
     value = db.Column(db.String)
+    lines = db.Column(ARRAY(db.INTEGER))

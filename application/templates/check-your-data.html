@@ -1,0 +1,29 @@
+{% extends "layouts/layout.html" %}
+{% block pageTitle %}Check your data{% endblock %}
+{% block content %}
+  <main id="content" role="main">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-m">Check your data</h1>
+      </div>
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <form method="POST" action="{{ url_for('check.check_data')}}">
+          <div class="govuk-form-group">
+            {{ form.datasets.label(class="govuk-label") }}
+            {{ form.datasets(class="govuk-select")}}
+          </div>
+          <div class="govuk-form-group">
+            {{ form.url.label(class="govuk-label") }}
+            {{ form.url(class="govuk-input")}}
+          </div>
+          <div class="govuk-button-group">
+            <input class="govuk-button" type="submit" value="Check">
+          </div>
+          {{ form.csrf_token }}
+        </form>
+      </div>
+    </div>
+  </main>
+{% endblock %}

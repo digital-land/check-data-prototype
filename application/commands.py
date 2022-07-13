@@ -300,7 +300,7 @@ def generate_report(base_url, ds, app_context):
         dataset = ds[0]
         resource = ds[1]
         organisation = ds[2]
-        issue_url = f"{base_url}/{dataset}-issue.json?_shape=array&_col=resource&_col=field&_col=value&_col=issue-type&resource__exact={resource}"  # noqa
+        issue_url = f"{base_url}/{dataset}-issue.json?_shape=array&_col=resource&_col=field&_col=value&_col=issue-type&_col=line-number&resource__exact={resource}"  # noqa
         while issue_url is not None:
             try:
                 resp = requests.get(issue_url)
@@ -337,11 +337,14 @@ def generate_report(base_url, ds, app_context):
                             ).one_or_none()
                             if dataset_issue is None:
                                 dataset_issue = DatasetIssue(
-                                    issue_type=issue["issue-type"], field=field
+                                    issue_type=issue["issue-type"],
+                                    field=field,
+                                    lines=[issue["line-number"]],
                                 )
                                 report.dataset_issues.append(dataset_issue)
                             else:
                                 dataset_issue.count += 1
+                                dataset_issue.lines.append(issue["line-number"])
 
                     db.session.add(report)
                     db.session.commit()

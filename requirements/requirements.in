@@ -8,3 +8,4 @@ Flask-Migrate
 psycopg2-binary
 requests
 jsonpickle
+Flask-WTF

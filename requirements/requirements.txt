@@ -25,6 +25,7 @@ flask==2.1.2
     #   -r requirements/requirements.in
     #   flask-migrate
     #   flask-sqlalchemy
+    #   flask-wtf
     #   sentry-sdk
 flask-migrate==3.1.0
     # via -r requirements/requirements.in
@@ -32,6 +33,8 @@ flask-sqlalchemy==2.5.1
     # via
     #   -r requirements/requirements.in
     #   flask-migrate
+flask-wtf==1.0.1
+    # via -r requirements/requirements.in
 govuk-frontend-jinja==2.2.0
     # via digital-land-frontend
 greenlet==1.1.2
@@ -41,7 +44,9 @@ gunicorn==20.1.0
 idna==3.3
     # via requests
 itsdangerous==2.1.2
-    # via flask
+    # via
+    #   flask
+    #   flask-wtf
 jinja2==3.1.2
     # via
     #   flask
@@ -54,6 +59,7 @@ markupsafe==2.1.1
     # via
     #   jinja2
     #   mako
+    #   wtforms
 psycopg2-binary==2.9.3
     # via -r requirements/requirements.in
 python-dotenv==0.20.0
@@ -74,6 +80,8 @@ validators==0.20.0
     # via digital-land-frontend
 werkzeug==2.1.2
     # via flask
+wtforms==3.0.1
+    # via flask-wtf
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
