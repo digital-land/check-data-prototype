@@ -1,6 +1,5 @@
 import csv
 import os
-from itertools import islice
 from typing import NamedTuple
 
 from application.models import Organisation
@@ -174,23 +173,18 @@ class Workspace(NamedTuple):
         )
 
 
-def convert_and_truncate_resource(api, workspace, resource_hash, limit=10):
+def convert_resource(api, workspace, resource_hash, limit=10):
     input_path = os.path.join(workspace.resource_dir, resource_hash)
     output_path = os.path.join(workspace.resource_dir, f"{resource_hash}_converted.csv")
 
     api.convert_cmd(input_path, output_path)
 
+    resource_rows = []
+
     with open(output_path) as file:
         reader = csv.DictReader(file)
         resource_fields = reader.fieldnames
-        truncated_resource_rows = list(islice(reader, limit))
+        for row in reader:
+            resource_rows.append(row)
 
-    # overwrite local copy of resource with first n rows of converted data
-    with open(input_path, "w") as file:
-        writer = csv.DictWriter(file, fieldnames=resource_fields, lineterminator="\r\n")
-        writer.writeheader()
-        for row in truncated_resource_rows:
-            writer.writerow(row)
-
-    output_path = os.path.join(workspace.transformed_dir, f"{resource_hash}.csv")
-    return resource_fields, input_path, output_path, truncated_resource_rows
+    return resource_fields, input_path, output_path, resource_rows

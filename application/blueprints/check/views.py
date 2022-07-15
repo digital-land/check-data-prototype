@@ -8,7 +8,7 @@ from flask import Blueprint, abort, current_app, jsonify, render_template, reque
 
 from application.blueprints.check.forms import CheckForm
 from application.models import Dataset
-from application.utils import Workspace, convert_and_truncate_resource
+from application.utils import Workspace, convert_resource
 
 check = Blueprint("check", __name__)
 
@@ -18,7 +18,7 @@ def check_data():
     form = CheckForm()
     results = []
     if form.validate_on_submit():
-        results = _run_pipeline(form.datasets.data, form.url.data)
+        results = _run_pipeline(form.datasets.data, form.url.data.strip())
         return jsonify(results)
     return render_template("check-your-data.html", form=form, results=results)
 
@@ -82,7 +82,7 @@ def _run_pipeline(dataset_id, resource_url):
                 input_path,
                 output_path,
                 resource_rows,
-            ) = convert_and_truncate_resource(api, workspace, resource_hash, limit)
+            ) = convert_resource(api, workspace, resource_hash, limit)
 
             api.pipeline_cmd(
                 input_path,
@@ -96,12 +96,6 @@ def _run_pipeline(dataset_id, resource_url):
                 endpoints=["dummy-endpoint"],
             )
 
-            transformed = []
-            with open(output_path) as file:
-                reader = csv.DictReader(file)
-                for row in reader:
-                    transformed.append(row)
-
             issues = []
             issue_file = os.path.join(workspace.issue_dir, f"{resource_hash}.csv")
             with open(issue_file) as file:
@@ -109,10 +103,11 @@ def _run_pipeline(dataset_id, resource_url):
                 for row in reader:
                     issues.append(row)
 
+    # inputpath could be used to show user what we collected from url if useful?
+
     return {
-        "transformed": transformed,
         "issues": issues,
         "resource_fields": resource_fields,
-        "expected_fields": fields,
-        "resource_rows": resource_rows,
+        "specification_fields": fields,
+        "converted_resource_rows": resource_rows,
     }
