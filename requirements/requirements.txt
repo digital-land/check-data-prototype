@@ -161,7 +161,7 @@ rfc3986[idna2008]==1.5.0
     # via httpx
 sentry-sdk[flask]==1.7.1
     # via -r requirements/requirements.in
-shapely==1.8.2
+shapely==1.8.0
     # via digital-land
 simplejson==3.17.6
     # via canonicaljson

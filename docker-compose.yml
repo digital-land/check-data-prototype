@@ -1,0 +1,33 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@database/feedback
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=feedback
+    healthcheck:
+      test: pg_isready -U postgres
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
