@@ -16,3 +16,7 @@ def short_date(date):
     if date is None:
         return date
     return date.strftime("%d %B %Y")
+
+
+def dump_json(data):
+    return json.dumps(data, default=str, indent=4)

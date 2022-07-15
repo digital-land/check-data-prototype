@@ -9,14 +9,14 @@
     </div>
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <form method="POST" action="{{ url_for('check.check_data')}}">
+        <form method="POST" action="{{ url_for('check.check_data') }}">
           <div class="govuk-form-group">
             {{ form.datasets.label(class="govuk-label") }}
-            {{ form.datasets(class="govuk-select")}}
+            {{ form.datasets(class="govuk-select") }}
           </div>
           <div class="govuk-form-group">
             {{ form.url.label(class="govuk-label") }}
-            {{ form.url(class="govuk-input")}}
+            {{ form.url(class="govuk-input") }}
           </div>
           <div class="govuk-button-group">
             <input class="govuk-button" type="submit" value="Check">
@@ -25,5 +25,20 @@
         </form>
       </div>
     </div>
+    {% if results %}
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">Results</span>
+            </summary>
+            <div class="govuk-details__text">
+              <pre class="govuk-!-margin-0"><code class="language-json"
+                                                  style="overflow: scroll;">{{ results | dump_json }}</code></pre>
+            </div>
+          </details>
+        </div>
+      </div>
+    {% endif %}
   </main>
 {% endblock %}

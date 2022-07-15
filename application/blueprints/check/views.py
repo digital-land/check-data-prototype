@@ -4,7 +4,7 @@ import tempfile
 
 import requests
 from digital_land.api import DigitalLandApi
-from flask import Blueprint, abort, current_app, jsonify, render_template, request
+from flask import Blueprint, abort, current_app, render_template, request
 
 from application.blueprints.check.forms import CheckForm
 from application.models import Dataset
@@ -19,7 +19,6 @@ def check_data():
     results = []
     if form.validate_on_submit():
         results = _run_pipeline(form.datasets.data, form.url.data.strip())
-        return jsonify(results)
     return render_template("check-your-data.html", form=form, results=results)
 
 
