@@ -138,6 +138,9 @@ class Organisation(db.Model):
         back_populates="organisations",
     )
 
+    def to_csv_dict(self):
+        return {"organisation": self.organisation, "name": self.name}
+
 
 class Resource(db.Model):
     resource = db.Column(db.Text, primary_key=True, nullable=False)

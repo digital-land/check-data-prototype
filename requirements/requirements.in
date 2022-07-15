@@ -9,3 +9,4 @@ psycopg2-binary
 requests
 jsonpickle
 Flask-WTF
+digital_land_python @ git+https://github.com/digital-land/pipeline.git#egg=digital-land
