@@ -4,7 +4,7 @@ import tempfile
 
 import requests
 from digital_land.api import DigitalLandApi
-from flask import Blueprint, abort, current_app, render_template, request
+from flask import Blueprint, abort, current_app, jsonify, render_template, request
 
 from application.blueprints.check.forms import CheckForm
 from application.models import Dataset
@@ -19,6 +19,7 @@ def check_data():
     results = []
     if form.validate_on_submit():
         results = _run_pipeline(form.datasets.data, form.url.data)
+        return jsonify(results)
     return render_template("check-your-data.html", form=form, results=results)
 
 
@@ -63,7 +64,7 @@ def _run_pipeline(dataset_id, resource_url):
             dataset_config,
         )
         api = DigitalLandApi(
-            False, dataset, workspace.pipeline_dir, workspace.specification_dir
+            False, dataset.dataset, workspace.pipeline_dir, workspace.specification_dir
         )
 
         api.collect_cmd(workspace.endpoint_csv, workspace.collection_dir)
@@ -92,6 +93,7 @@ def _run_pipeline(dataset_id, resource_url):
                 workspace.organisation_path,
                 column_field_dir=workspace.column_field_dir,
                 dataset_resource_dir=workspace.dataset_resource_dir,
+                endpoints=["dummy-endpoint"],
             )
 
             transformed = []
