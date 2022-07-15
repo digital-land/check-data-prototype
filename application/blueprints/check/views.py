@@ -66,10 +66,13 @@ def _run_pipeline(dataset_id, resource_url):
             resource_url,
             dataset_config,
         )
+
+        # construct API object
         api = DigitalLandApi(
             False, dataset.dataset, workspace.pipeline_dir, workspace.specification_dir
         )
 
+        # Use API to collect resource
         api.collect_cmd(workspace.endpoint_csv, workspace.collection_dir)
 
         resources = os.listdir(workspace.resource_dir)
@@ -87,6 +90,7 @@ def _run_pipeline(dataset_id, resource_url):
                 resource_rows,
             ) = convert_resource(api, workspace, resource_hash, limit)
 
+            # Run API pipeline
             api.pipeline_cmd(
                 input_path,
                 output_path,

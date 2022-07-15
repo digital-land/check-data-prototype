@@ -80,16 +80,6 @@ class Workspace(NamedTuple):
             writer.writeheader()
             writer.writerow(endpoint_data)
 
-        # source_csv = os.path.join(collection_dir, "source.csv", lineterminator="\r\n")
-        # source_data = source.to_csv_dict()
-        # with open(source_csv, "w") as csvfile:
-        #     fieldnames = source_data.keys()
-        #     writer = csv.DictWriter(
-        #         csvfile, fieldnames=fieldnames, lineterminator="\r\n"
-        #     )
-        #     writer.writeheader()
-        #     writer.writerow(source_data)
-
         pipeline_dir = os.path.join(temp_dir, "pipeline")
         if not os.path.exists(pipeline_dir):
             os.makedirs(pipeline_dir)
