@@ -16,10 +16,14 @@ check = Blueprint("check", __name__)
 @check.route("/check-your-data", methods=["GET", "POST"])
 def check_data():
     form = CheckForm()
-    results = []
     if form.validate_on_submit():
-        results = _run_pipeline(form.datasets.data, form.url.data.strip())
-    return render_template("check-your-data.html", form=form, results=results)
+        dataset = form.datasets.data
+        url = form.url.data.strip()
+        results = _run_pipeline(dataset, url)
+        return render_template(
+            "check-your-data.html", form=form, url=url, dataset=dataset, results=results
+        )
+    return render_template("check-your-data.html", form=form)
 
 
 def _run_pipeline(dataset_id, resource_url):
@@ -102,7 +106,7 @@ def _run_pipeline(dataset_id, resource_url):
                 for row in reader:
                     issues.append(row)
 
-    # inputpath could be used to show user what we collected from url if useful?
+    # input path could be used to show user what we collected from url if useful?
 
     return {
         "issues": issues,
