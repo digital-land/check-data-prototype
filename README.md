@@ -23,6 +23,28 @@ To run the application run:
     make run
 
 
+## Using docker in development
+
+There's a dockerfile and docker compose file to enable running application and postgres db in docker.
+
+First run db migrations
+
+    docker compose run web flask db upgrade
+
+Then load base data
+
+    docker compose run web flask data load
+
+If you need to reload base data then run:
+
+     docker compose run web flask data drop
+
+followed by the load command above
+
+To run the application
+
+    docker compose up
+
 ## Adding new python packages to the project
 
 This project uses pip-tools to manage requirements files. [https://pypi.org/project/pip-tools/](https://pypi.org/project/pip-tools/)
