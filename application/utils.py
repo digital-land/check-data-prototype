@@ -2,6 +2,8 @@ import csv
 import os
 from typing import NamedTuple
 
+from digital_land.commands import convert
+
 from application.models import Organisation
 
 
@@ -163,11 +165,11 @@ class Workspace(NamedTuple):
         )
 
 
-def convert_resource(api, workspace, resource_hash, limit=10):
+def convert_resource(workspace, resource_hash, limit=10):
     input_path = os.path.join(workspace.resource_dir, resource_hash)
     output_path = os.path.join(workspace.resource_dir, f"{resource_hash}_converted.csv")
 
-    api.convert_cmd(input_path, output_path)
+    convert(input_path, output_path)
 
     resource_rows = []
 

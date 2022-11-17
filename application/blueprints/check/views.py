@@ -3,7 +3,7 @@ import os
 import tempfile
 
 import requests
-from digital_land.api import DigitalLandApi
+from digital_land import commands
 from flask import Blueprint, abort, current_app, render_template, request
 
 from application.blueprints.check.forms import CheckForm
@@ -67,13 +67,8 @@ def _run_pipeline(dataset_id, resource_url):
             dataset_config,
         )
 
-        # construct API object
-        api = DigitalLandApi(
-            False, dataset.dataset, workspace.pipeline_dir, workspace.specification_dir
-        )
-
-        # Use API to collect resource
-        api.collect_cmd(workspace.endpoint_csv, workspace.collection_dir)
+        # Use digital land python to collect resource
+        commands.collect(workspace.endpoint_csv, workspace.collection_dir)
 
         resources = os.listdir(workspace.resource_dir)
 
@@ -88,10 +83,10 @@ def _run_pipeline(dataset_id, resource_url):
                 input_path,
                 output_path,
                 resource_rows,
-            ) = convert_resource(api, workspace, resource_hash, limit)
+            ) = convert_resource(workspace, resource_hash, limit)
 
             # Run API pipeline
-            api.pipeline_cmd(
+            commands.pipeline(
                 input_path,
                 output_path,
                 workspace.collection_dir,
